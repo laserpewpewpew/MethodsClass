@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+% A good sample LaTeX file that you can modify and use as a template.
+
+\usepackage{graphicx}		% Enable graphics commands
+\usepackage{lscape}		% Enable landscape with \begin{landscape} until \end{landscape}
+\usepackage{natbib}			% Enable citation commands \citep{}, \citet{}, etc.
+\bibpunct{(}{)}{;}{a}{}{,}		% Formatting for in-text citations
+\usepackage{setspace}		% Enable double-spacing with \begin{spacing}{2} until \end{spacing}.
+\usepackage[utf8]{inputenc} 	% Enable utf8 characters, i.e., accents without coding--just type them in.
+\usepackage[english]{babel}	% English hyphenation and alphabetization.  Other languages available.
+\usepackage{dcolumn}        % For decimal-aligned stargazer output.
+\usepackage[colorlinks=true, urlcolor=blue, citecolor=black, linkcolor=black]{hyperref} % Include hyperlinks with the \url and \href commands.
+\setlength{\tabcolsep}{1pt}	% Make tables slightly narrower by reducing space between columns.
+
+\renewcommand\floatpagefraction{.9}	% These commands allow larger tables and graphics to fit
+\renewcommand\topfraction{.9}		% on a page when default settings would complain.
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
+\newcommand{\R}{\textsf{R}~}        %This creates the command \R to typeset the name R correctly.
+
+%\usepackage[left=1in, right=1in]{geometry}	%Turn footnotes into endnotes (commented out).
+%\renewcommand{\footnotesize}{\normalsize}	
+%\usepackage{endnotes}
+%\renewcommand{\footnote}{\endnote}
+%\renewcommand{\section}{\subsection}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+
+\title{Title of Your Paper}		% Better titles available.
+\author{Your Name}			% Likewise.
+\date{\today}				% Replace \today with an actual date if you don't want it to change.
+\maketitle
+
+\begin{abstract}
+This should be 100 to 150 words summarizing your paper.
+\end{abstract}
+
+\newpage					% Start your actual text on a clean slate.
+
+\section{Citations}
+There are many different citation packages, but I prefer the natbib package called above.  To make a parenthetical citation, you use \verb+\citep{citekey}+ (the p is for parenthetical).  To make a textual citation, you use \verb+\citet{citekey}+ (t for textual).  Put page numbers in a leading set of brackets: \verb+\citep[25-26]{citekey}+.  Put textual comments in \emph{another} set of leading brackets: \verb+\citep[see][10]{citekey}+.  Try out \verb+\citeauthor+ and \verb+\citealt+ and see what you get.  I consistently use \verb+FirstauthorYear+ for my citekeys; it's best to choose a format and stick to it so that you don't actually have to look up citekeys.  Some BibTeX software (e.g., BibDesk) will even automatically generate citekeys using the format you specify.  Okay, an example: \\
+
+Linear regression is easy \citep[see, e.g.,][]{Gelman2007}.  But, as \citet[86-87]{Solt2001} points out, it isn't always the most appropriate technique.
+
+\section{Tables By Hand in \LaTeX}
+Doing tables by hand can get very complicated.  The key line is the one that starts \verb+\begin{tabular}+.  The next set of curly brackets define how many columns there will be and the characteristics of those columns.  The letters l, r, and c mean the column should be left-justified, right-justified, or centered, respectively.  The letter p means a column should be a paragraph with a fixed width specified by the length inside the curly brackets.  Here I've used \verb+p{.5cm}+ to get some extra space between columns.  Once you're inside the table, the \verb+&+ means ``this column is done, go on to the next one."  As you can see, the \verb+\multicolumn+ command is used to span multiple columns, for example, for a heading.  Here, I ended up inserting some spaces using \verb+\,+ to make the columns an even width, although it would have been cleaner to use p-columns.
+
+\begin{table}[hbtp] 
+\caption{Economic Inequality, Average Incomes, and Poverty in Four Hypothetical Countries}
+\label{T:sim}
+\begin{small}
+\begin{tabular}{l p{.5cm} c c c c c c c c c c p{.5cm} c p{.5cm} c p{.5cm} c}
+\\
+\hline
+&& \multicolumn{10}{c}{Income Decile} & & Gini & & GDP/ & & Poverty\\
+\cline{3-12} Country && 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & & Index & & Capita & & Gap\\
+\hline
+\\
+ A && \,40\,\, & \,45\,\, & \,60\,\, & \,70\,\, & \,80\,\, & \,85\,\, & 100\, & 125\, & 145\, & 250\, && 30.1 && 100 & & 15\\
+ B && \,40\,\, & \,45\,\, & \,60\,\, & \,60\,\, & \,60\,\, & \,65\,\, & 100\, & 125\, & 150\, & 300\, && 35.1 && 100 & & 15\\
+ C && \,40\,\, & \,45\,\, & \,70\,\, & \,80\,\, & \,90\,\, & \,100\,\, & 105\, & 140\, & 160\, & 270\, && 30.1 && 110 & & 15\\
+ D && \,40\,\, & \,45\,\, & \,45\,\, & \,85\,\, & \,85\,\, & \,85\,\, & 100\, & 120\, & 145\, & 250\, && 30.1 && 100 & & 20\\
+\hline
+\end{tabular}
+\end{small}
+\end{table}
+
+\newpage
+\section{The Stargazer Package}
+Although hand-building tables is possible, it is way better to have \R generate the table you want.  As usual, there are several ways to go, but the stargazer package is a handy one (and it was written by a political scientist, so it is more likely than others to correspond to our disciplinary norms).  It has many, many options: check out \href{http://cran.r-project.org/web/packages/stargazer/stargazer.pdf}{the manual} and \href{http://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf}{the vignettes}.
+
+<<label=setup, echo=F, results=hide>>=
+ipak <- function(pkg){
+    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+    if (length(new.pkg)) 
+        install.packages(new.pkg, dependencies = TRUE)
+    sapply(pkg, require, character.only = TRUE)
+}
+
+packages <- c("ggplot2", "RCurl", "stargazer")
+ipak(packages)
+
+states <- read.csv("statereg.csv")
+
+
+m1 <- lm(regdays ~ stategini + stdiversity + over64 + college + stincpc +
+             south, data=states)
+
+m2 <- lm(regdays ~ stategini + stdiversity + over64 + college + stincpc +
+             south + stategini:stdiversity, data=states)
+
+@
+
+<<label=Table2, results=tex, echo=F>>=
+stargazer(states, title="Summary Statistics, State Dataset", label="T:sum")
+@
+
+<<label=Table3, results=tex, echo=F>>=
+stargazer(m1, m2, title="Linear Regression Results", dep.var.labels="Registration Days", align=TRUE, omit.stat=c("adj.rsq", "f", "ser"), label="T:res")
+@
+
+\newpage
+
+\section{Figures}
+Although you can drop \textsf{R}-generated figures straight into your document using the \verb+fig=T+ code-chunk argument, I generally prefer to use \R to generate pdfs of my figures: the \verb+fig=T, include=F+ combination of arguments generates pdfs with auto-generated names of the format sweavefilename-figurelabel.pdf.  I then insert them with the commands below, which give you more control over where and how the figures appear and make it easier to include notes and the like.     
+
+<<label=f1, echo=F, fig=T, include=F, width=9, height = 6>>=
+qplot(y = regdays, x = stategini, data=states)
+@
+ 
+\begin{figure}[htbp] 
+  \caption{State Registration Deadlines by Income Inequality}
+  \label{F:scatter}
+  \begin{center}
+    \includegraphics[width=5.25in]{LaTeX_Example-f1.pdf}
+  \end{center}
+  \begin{footnotesize}
+  \begin{tabular}{p{.4in} p{4.75in}}
+  & \emph{Note}: One should really label one's axes with descriptive names rather than just using the codenames of variables from one's dataset.  Then again, one should only include informative notes to figures rather than just making up text.
+  \end{tabular}
+  \end{footnotesize}
+\end{figure}
+
+Note that the \verb+\label+ command, which I use for all tables and figures, lets you refer to the table or figure by its assigned number using the \verb+\ref+ command.  You can use whatever label you want. For example, for the scatterplot in Figure~\ref{F:scatter}, I used \verb+F:scatter+.  I always put a \verb+T:+ in table labels (see my use of the \verb+label=+ option in the \verb+stargazer+ commands above) and an \verb+F:+ in figure labels, just to help keep them straight in my mind. 
+
+\section{Bibliography}
+The bibliography is easily generated using the two commands below.  The \verb+ajps+ style is one I hacked together myself based on the \verb+apsr+ style floating around the web, which neglects to put a comma after the second-to-last name in a list of three or more authors <shiver>. 
+
+\bibliographystyle{ajps}
+\bibliography{ExampleLibrary}
+
+\end{document}
+

@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+% A good sample LaTeX file that you can modify and use as a template.
+
+\usepackage{graphicx}    	% Enable graphics commands
+\usepackage{lscape}		% Enable landscape with \begin{landscape} until \end{landscape}
+\usepackage{natbib}			% Enable citation commands \citep{}, \citet{}, etc.
+\bibpunct{(}{)}{;}{a}{}{,}		% Formatting for in-text citations
+\usepackage{setspace}		% Enable double-spacing with \begin{spacing}{2} until \end{spacing}.
+\usepackage[utf8]{inputenc} 	% Enable utf8 characters, i.e., accents without coding--just type them in.
+\usepackage[english]{babel}	% English hyphenation and alphabetization.  Other languages available.
+\usepackage{dcolumn}        % For decimal-aligned stargazer output.
+\usepackage[colorlinks=true, urlcolor=blue, citecolor=black, linkcolor=black]{hyperref} % Include hyperlinks with the \url and \href commands.
+\setlength{\tabcolsep}{1pt}	% Make tables slightly narrower by reducing space between columns.
+
+\renewcommand\floatpagefraction{.9}	% These commands allow larger tables and graphics to fit
+\renewcommand\topfraction{.9}		% on a page when default settings would complain.
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
+\newcommand{\R}{\textsf{R}~}        %This creates the command \R to typeset the name R correctly.
+
+%\usepackage[left=1in, right=1in]{geometry}	%Turn footnotes into endnotes (commented out).
+%\renewcommand{\footnotesize}{\normalsize}	
+%\usepackage{endnotes}
+%\renewcommand{\footnote}{\endnote}
+%\renewcommand{\section}{\subsection}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+
+\title{Intermediate Methods Exam}		% Better titles available.
+\author{Kellen Gracey}			% Likewise.
+\date{\today}				% Replace \today with an actual date if you don't want it to change.
+\maketitle
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start your actual text on a clean slate.%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{~}
+
+
+
+\section{~}
+
+
+
+\section{~}
+
+<<label=setup, echo=F, results=hide>>=
+ipak <- function(pkg){
+    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+    if (length(new.pkg)) 
+        install.packages(new.pkg, dependencies = TRUE)
+    sapply(pkg, require, character.only = TRUE)
+}
+
+packages <- c("ggplot2", "RCurl", "stargazer")
+ipak(packages)
+
+states <- read.csv(".csv")
+
+
+m1 <- lm( ~ , data= )
+@
+
+<<label=Table2, results=tex, echo=F>>=
+stargazer(states, title="Summary Statistics, Dataset", label="T:sum")
+@
+
+<<label=Table3, results=tex, echo=F>>=
+stargazer(m1, m2, title="Linear Regression Results", 
+          dep.var.labels=" ~ ", 
+          align=TRUE,
+          no.space=TRUE,
+          omit.stat=c("adj.rsq", "f", "ser"), 
+          label="T:reg")
+@
+
+\newpage
+
+\section{~}
+     
+
+<<label=f1, echo=F, fig=T, include=F, width=9, height = 6>>=
+qplot(y = regdays, 
+      x = stategini,
+      xlab = c("Income Inequality"),
+      ylab = c("Registration Days"),
+      data=states)
+@
+ 
+\begin{figure}[htbp] 
+  \caption{State Registration Deadlines by Income Inequality}
+  \label{F:scatter}
+  \begin{center}
+    \includegraphics[width=5.25in]{KJGExam-f1.pdf}
+  \end{center}
+  \begin{footnotesize}
+  \begin{tabular}{p{.4in} p{4.75in}}
+  & \emph{Note}: Put footnote here.
+  \end{tabular}
+  \end{footnotesize}
+\end{figure}
+
+For example, for the scatterplot in Figure~\ref{F:scatter}, I used \verb+F:scatter+.
+
+\section{~}
+
+\section{~}
+
+\section{~}
+
+\section{~}
+
+\end{document}
