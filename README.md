@@ -1,4 +1,4 @@
-MethodsClass
-============
+POLI5003
+========
 
-Methods Class Content - Script files and notes
+R scripts and problem sets for POLI5003, Spring 2014
